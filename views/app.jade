@@ -1,0 +1,151 @@
+extends layout
+
+block meta
+	meta(name="description", content="")
+	//Mobile viewport optimization h5bp.com/ad
+	meta(name="HandheldFriendly", content="True")
+	meta(name="MobileOptimized", content="320")
+	meta(name="viewport", content="width=device-width")
+	// iOS web app, delete if not needed. https://github.com/h5bp/mobile-boilerplate/issues/94
+	meta( name="apple-mobile-web-app-capable", content="yes")
+	meta( name="apple-mobile-web-app-status-bar-style", content="black")
+	// <script>(function(){var a;if(navigator.platform==="iPad"){a=window.orientation!==90||window.orientation===-90?"img/startup-tablet-landscape.png":"img/startup-tablet-portrait.png"}else{a=window.devicePixelRatio===2?"img/startup-retina.png":"img/startup.png"}document.write('<link rel="apple-touch-startup-image" href="'+a+'"/>')})()</script> 
+	// The script prevents links from opening in mobile safari. https://gist.github.com/1042026 
+	// <script>(function(a,b,c){if(c in b&&b[c]){var d,e=a.location,f=/^(a|html)$/i;a.addEventListener("click",function(a){d=a.target;while(!f.test(d.nodeName))d=d.parentNode;"href"in d&&(d.href.indexOf("http")||~d.href.indexOf(e.host))&&(a.preventDefault(),e.href=d.href)},!1)}})(document,window.navigator,"standalone")</script> 
+	
+	// Mobile IE allows us to activate ClearType technology for smoothing fonts for easy reading 
+	meta( http-equiv="cleartype", content="on")
+	
+block style
+	// Home screen icon  Mathias Bynens mathiasbynens.be/notes/touch-icons 
+	// For iPhone 4 with high-resolution Retina display: 
+	link( rel="apple-touch-icon-precomposed", sizes="114x114", href="img/h/apple-touch-icon.png")
+	// For first-generation iPad: 
+	link( rel="apple-touch-icon-precomposed", sizes="72x72", href="img/m/apple-touch-icon.png")
+	// For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: 
+	link( rel="apple-touch-icon-precomposed", href="img/l/apple-touch-icon-precomposed.png")
+	// For nokia devices: 
+	link( rel="shortcut icon", href="img/l/apple-touch-icon.png")
+	
+	link( rel="stylesheet", href="lib/codemirror.css")
+	link( href="lib/CloudMD.css", media="all", rel="stylesheet", type="text/css")
+	link( rel="stylesheet", href="theme/neat.css")
+	link( rel="stylesheet", href="theme/elegant.css")
+	link( rel="stylesheet", href="theme/night.css")
+	link( rel="stylesheet", href="theme/monokai.css")
+	link( rel="stylesheet", href="theme/cobalt.css")
+	link( rel="stylesheet", href="theme/eclipse.css")
+	link( rel="stylesheet", href="theme/rubyblue.css")
+	link( rel="stylesheet", href="theme/lesser-dark.css")
+	link( rel="stylesheet", href="theme/xq-dark.css")
+	
+	link( rel="stylesheet", href="lib/util/dialog.css")
+	
+	style.
+		html, body{
+			height:100%;
+			width:100%;
+		}
+		
+		.CodeMirror {}
+		span.CodeMirror-matchhighlight { background: #e9e9e9 }
+		.CodeMirror-focused span.CodeMirror-matchhighlight { background: #e7e4ff; !important }
+		
+		.activeline {background: #e8f2ff !important;}
+		#container
+		{
+			display:-moz-box; /* Firefox */
+			display:-webkit-box; /* Safari and Chrome */
+			display:box;
+			width:100%;
+			height:100%
+		}
+		#code
+		{
+			-moz-box-flex:1.0; /* Firefox */
+			-webkit-box-flex:1.0; /* Safari and Chrome */
+			box-flex:1.0;
+			overflow:scroll;
+		}
+		
+		#preview
+		{
+			-moz-box-flex:1.0; /* Firefox */
+			-webkit-box-flex:1.0; /* Safari and Chrome */
+			box-flex:1.0;
+			overflow:scroll;
+		}
+		
+block scripts
+	script( src="lib/codemirror.js")
+	script( src="lib/util/formatting.js")
+	script( src="lib/util/foldcode.js")
+	
+	script( src="lib/util/searchcursor.js")
+	script( src="lib/util/search.js")
+	
+	script( src="lib/util/match-highlighter.js")
+	
+	script( src="mode/xml/xml.js")
+	script( src="mode/markdown/markdown.js")
+	
+	script( src="lib/marked.js")
+	script( src="lib/dat.gui.js")
+	script( src="lib/FileSaver.js")
+	script( src="lib/BlobBuilder.js")
+	script( src="lib/vendor/json2.js")
+	script( src="lib/vendor/jquery-1.7.1.js")
+	script( src="lib/vendor/underscore-1.3.1.js")
+	script( src="lib/backbone-min.js")
+	script( src="lib/backbone-localstorage.js")
+	script( src="lib/CloudMD.js")
+	
+block content
+	#container
+		#code
+		#preview
+	
+	#mdapp
+		#title
+			h1 MarkDowns
+	
+		#content
+			
+			#docs
+				ul(id = "app-list")
+				
+			ul( id="instructions")
+				li Double-click to edit a documents name
+			//
+				#credits
+	
+	//Templates
+	
+	script(type="text/template", id="document-template").
+		<div class="view">
+			<label class="document-text"><%= name %></label>
+			<p><a class="document-download">download</a>
+			<a class="document-download-html">html</a></p>
+			<a class="document-destroy"></a>
+		</div>
+		<div class="edit">
+			<input class="document-input" type="text" value="<%= name %>" />
+		</div>
+	
+	script(type="text/template", id="document-list-template")
+		#create-doc
+				input(id="new-doc", placeholder="untitled", type="text")
+				span(class="ui-tooltip-top", style="display:none;") Press Enter to save this task
+		ul(id = "doc-list")
+			
+		
+	script(type="text/template", id="folder-template").
+		<div class="view">
+			<label class="document-text"><%= path %></label>
+		</div>
+//		
+	script(type="text/template", id="folder-list-template")
+		#create-doc
+				input(id="new-doc", placeholder="untitled", type="text")
+				span(class="ui-tooltip-top", style="display:none;") Press Enter to save this task
+		ul(id = "doc-list")

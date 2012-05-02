@@ -1,0 +1,201 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Cloud-MarkDown</title>
+    
+    <meta name="description" content="">
+
+		<!-- Mobile viewport optimization h5bp.com/ad -->
+		<meta name="HandheldFriendly" content="True">
+		<meta name="MobileOptimized" content="320">
+		<meta name="viewport" content="width=device-width">
+	
+		<!-- Home screen icon  Mathias Bynens mathiasbynens.be/notes/touch-icons -->
+		<!-- For iPhone 4 with high-resolution Retina display: -->
+		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/h/apple-touch-icon.png">
+		<!-- For first-generation iPad: -->
+		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/m/apple-touch-icon.png">
+		<!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+		<link rel="apple-touch-icon-precomposed" href="img/l/apple-touch-icon-precomposed.png">
+		<!-- For nokia devices: -->
+		<link rel="shortcut icon" href="img/l/apple-touch-icon.png">
+	
+		<!-- iOS web app, delete if not needed. https://github.com/h5bp/mobile-boilerplate/issues/94 -->
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!-- <script>(function(){var a;if(navigator.platform==="iPad"){a=window.orientation!==90||window.orientation===-90?"img/startup-tablet-landscape.png":"img/startup-tablet-portrait.png"}else{a=window.devicePixelRatio===2?"img/startup-retina.png":"img/startup.png"}document.write('<link rel="apple-touch-startup-image" href="'+a+'"/>')})()</script> -->
+		
+		<!-- The script prevents links from opening in mobile safari. https://gist.github.com/1042026 -->
+		<!-- <script>(function(a,b,c){if(c in b&&b[c]){var d,e=a.location,f=/^(a|html)$/i;a.addEventListener("click",function(a){d=a.target;while(!f.test(d.nodeName))d=d.parentNode;"href"in d&&(d.href.indexOf("http")||~d.href.indexOf(e.host))&&(a.preventDefault(),e.href=d.href)},!1)}})(document,window.navigator,"standalone")</script> -->
+		
+		<!-- Mobile IE allows us to activate ClearType technology for smoothing fonts for easy reading -->
+		<meta http-equiv="cleartype" content="on">
+    
+    <link rel="stylesheet" href="lib/codemirror.css">
+    <link href="lib/CloudMD.css" media="all" rel="stylesheet" type="text/css"/>
+    <script src="lib/codemirror.js"></script>
+    <script src="lib/util/formatting.js"></script>
+    <script src="lib/util/foldcode.js"></script>
+    <link rel="stylesheet" href="theme/neat.css">
+    <link rel="stylesheet" href="theme/elegant.css">
+    <link rel="stylesheet" href="theme/night.css">
+    <link rel="stylesheet" href="theme/monokai.css">
+    <link rel="stylesheet" href="theme/cobalt.css">
+    <link rel="stylesheet" href="theme/eclipse.css">
+    <link rel="stylesheet" href="theme/rubyblue.css">
+    <link rel="stylesheet" href="theme/lesser-dark.css">
+    <link rel="stylesheet" href="theme/xq-dark.css">
+    
+    <link rel="stylesheet" href="lib/util/dialog.css">
+    <script src="lib/util/searchcursor.js"></script>
+    <script src="lib/util/search.js"></script>
+    
+    <script src="lib/util/match-highlighter.js"></script>
+    
+    <script src="mode/xml/xml.js"></script>
+    <script src="mode/markdown/markdown.js"></script>
+    
+    <script src="lib/marked.js"></script>
+
+		<script src="lib/dat.gui.js"></script>
+		<script src="lib/FileSaver.js"></script>
+		<script src="lib/BlobBuilder.js"></script>
+		
+		<script src="lib/vendor/json2.js"></script>
+    <script src="lib/vendor/jquery-1.7.1.js"></script>
+    <script src="lib/vendor/underscore-1.3.1.js"></script>
+		<script src="lib/backbone-min.js"></script>
+		<script src="lib/backbone-localstorage.js"></script>
+		
+		
+		
+		<script src="lib/CloudMD.js"></script>
+		
+    <style type="text/css">
+    	html, body{
+    		height:100%;
+    		width:100%;
+    	}
+    
+    	.CodeMirror {}
+      
+      span.CodeMirror-matchhighlight { background: #e9e9e9 }
+      .CodeMirror-focused span.CodeMirror-matchhighlight { background: #e7e4ff; !important }
+      
+      .activeline {background: #e8f2ff !important;}
+
+    	
+    	#container
+			{
+				display:-moz-box; /* Firefox */
+				display:-webkit-box; /* Safari and Chrome */
+				display:box;
+				width:100%;
+				height:100%
+			}
+			
+			#code
+			{
+				-moz-box-flex:1.0; /* Firefox */
+				-webkit-box-flex:1.0; /* Safari and Chrome */
+				box-flex:1.0;
+				overflow:scroll;
+			}
+			
+			#preview
+			{
+				-moz-box-flex:1.0; /* Firefox */
+				-webkit-box-flex:1.0; /* Safari and Chrome */
+				box-flex:1.0;
+				overflow:scroll;
+			}
+    </style>
+  </head>
+  <body>
+		<div id="container">
+
+			<div id="code" name="code">
+			</div>
+			<div id=preview></div>
+		</div>
+
+		<div id="mdapp">
+
+      <div class="title">
+        <h1>MarkDowns</h1>
+      </div>
+
+      <div class="content">
+
+        <div id="create-doc">
+          <input id="new-doc" placeholder="untitled" type="text" />
+          <span class="ui-tooltip-top" style="display:none;">Press Enter to save this task</span>
+        </div>
+
+        <div id="docs">
+          <ul id="doc-list"></ul>
+        </div>
+      </div>
+
+    </div>
+    
+    <ul id="instructions">
+      <li>Double-click to edit a documents name.</li>
+    </ul>
+    
+    
+    <!--<div id="credits">
+      
+    </div>-->
+    <!-- Templates -->
+
+    <script type="text/template" id="document-template">
+      <div class="view">
+				<label class="document-text"><%= name %></label>
+				<p><a class="document-download">download</a>
+				<a class="document-download-html">html</a></p>
+				<a class="document-destroy"></a>
+    	</div>
+    	<div class="edit">
+    		<input class="document-input" type="text" value="<%= name %>" />
+    	</div>
+    </script>
+<!--
+<p>Select a theme: <select onchange="selectTheme(this)">
+    <option selected>default</option>
+    <option>night</option>
+    <option>monokai</option>
+    <option>neat</option>
+    <option>elegant</option>
+    <option>cobalt</option>
+    <option>eclipse</option>
+    <option>rubyblue</option>
+    <option>lesser-dark</option>
+    <option>xq-dark</option>
+</select>
+</p>
+
+<p>Select a piece of code and click one of the links below to apply automatic formatting to the selected text or comment/uncomment the selected text. Note that the formatting behavior depends on the current block's mode.
+    <table>
+      <tr>
+        <td>
+          <a href="javascript:autoFormatSelection()">
+            Autoformat Selected
+          </a>
+        </td>
+        <td>
+          <a href="javascript:commentSelection(true)">
+            Comment Selected
+          </a>
+        </td>
+        <td>
+          <a href="javascript:commentSelection(false)">
+            Uncomment Selected
+          </a>
+        </td>
+      </tr>
+    </table>
+</p>    
+-->
+  </body>
+</html>
