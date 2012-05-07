@@ -1,17 +1,9 @@
-// Read dropbox key and secret from the command line.
-var consumer_key = process.argv[2]
-  , consumer_secret = process.argv[3];
-
-if (consumer_key == undefined || consumer_secret == undefined) {
-  console.log("Usage: node app.js <dropbox key> <dropbox secret>");
-  process.exit(1);
-}
 
 var sys = require('util')
   ,  dbox  = require("dbox")
   ,  express = require('express')
   ,  app = express.createServer();
-var dapp   = dbox.app({ "app_key": consumer_key, "app_secret": consumer_secret });
+var dapp   = dbox.app({ "app_key": <consumer_key>, "app_secret": <consumer_secret> });
 
 // Create and configure an Express server.
 var app = express.createServer();
@@ -75,70 +67,70 @@ app.post('/sync', function(req, res){
 	if(req.session.client && req.session.client.metadata){
 		if(req.body.path || req.body.path == ""){
 			req.session.client.metadata(req.body.path, options, function(status, reply){
-			//test for file vs folder
-				if(reply.is_dir){
-					var files = new Array();
-					var folders = new Array();
-					reply.contents.forEach(function(item){
-						
-						if(item.is_dir && (!req.body.folders || !req.body.folders[item.path])){
-							folders.push(item.path);
-						}
-						else if(!req.body.files || !req.body.files[item.path] || req.body.files[item.path].utc != Date.parse(item.modified)){
-							files.push(item.path);
-						}
-					});
-					res.json({
-						files: files,
-						folders: folders
-					});
-				}
-				else {
-					console.log(req.body);
-					//sync file with dropbox
-					if(req.body.file.utc > Date.parse(reply.modified)){
-						req.session.client.put(req.body.path, req.body.file.content, function(status, reply){
-							res.json({
-								success: true,
-								model:{
-									utc: Date.parse(reply.modified)
-								}
-							});
+				if(!reply.error){
+				//test for file vs folder
+					if(reply.is_dir){
+						var files = new Array();
+						var folders = new Array();
+						reply.contents.forEach(function(item){
+							
+							if(item.is_dir && (!req.body.folders || !req.body.folders[item.path])){
+								folders.push(item.path);
+							}
+							else if(!req.body.files || !req.body.files[item.path] || req.body.files[item.path].utc != Date.parse(item.modified)){
+								files.push(item.path);
+							}
 						});
-					}
-					else if(req.body.file.utc < Date.parse(reply.modified)){
-						req.session.client.get(req.body.path, function(status, reply){
-							res.json({
-								success: true,
-								model: {
-									utc: Date.parse(reply.modified),
-									content: reply.toString()
-								}
-							});
+						res.json({
+							files: files,
+							folders: folders
 						});
 					}
 					else {
-						res.json({
-							success: true,
-							model: {
-								utc: Date.parse(reply.modified),
-							}
-						});
+						//sync file with dropbox
+						if(req.body.file.utc >= Date.parse(reply.modified)){
+							req.session.client.put(req.body.path, req.body.file.content, function(status, reply){
+								res.json({
+									success: true,
+									model:{
+										utc: Date.parse(reply.modified)
+									}
+								});
+							});
+						}
+						else if(req.body.file.utc < Date.parse(reply.modified)){
+							req.session.client.get(req.body.path, function(status, reply){
+								res.json({
+									success: true,
+									model: {
+										utc: Date.parse(reply.modified),
+										content: reply.toString()
+									}
+								});
+							});
+						}
 					}
+				}
+				else {
+					res.json(reply);
 				}
 			});
 		}
 		else {//add folder or file?
-			console.log(req.body);
 			var path = "/"+req.body.file.name+".md";
 			req.session.client.put(path, req.body.file.content, function(status, reply){
-				res.json({
-					success: true,
-					model:{
-						db_path: path,
-						utc: Date.parse(reply.modified)
-					}
-				});
+				if(!reply.error){
+					res.json({
+						success: true,
+						model:{
+							db_path: path,
+							utc: Date.parse(reply.modified)
+						}
+					});
+				}
+				else {
+					res.json(reply);
+				}
 			});
 		}
 	}
@@ -150,5 +142,5 @@ app.post('/sync', function(req, res){
 	}
 });
 
-app.listen(3030);
+app.listen(8080);
 console.log('Dropbox browser running on port ' + app.address().port);

@@ -44,7 +44,7 @@ var Editor = function(){
 				self.md.set("utc", utc());
 			}
 			clearTimeout(delay);
-			delay = setTimeout(updatePreview, 300);
+			delay = setTimeout(updatePreview, 30);
 		},
 		
 		lineWrapping: true,
@@ -127,7 +127,7 @@ var Document = Backbone.Model.extend({
     	
     	self.save();
 			clearTimeout(self.get("delay"));
-			self.set("delay", setTimeout(function(){self.DBsync()}, 300));
+			self.set("delay", setTimeout(function(){self.DBsync()}, 500));
     });
     if(this.get("needs_sync") && this.get("utc") == 0){
     	this.DBsync(); //could also listen for a needs_sync change
@@ -136,7 +136,6 @@ var Document = Backbone.Model.extend({
 	
 	DBsync: function(){
 		var self = this;
-		console.log(self);
 		this.set("needs_sync", true);
 		if(localStorage.getItem("app_access_token")){
 			var access_token = JSON.parse(localStorage.getItem("app_access_token"));
@@ -148,10 +147,10 @@ var Document = Backbone.Model.extend({
 					"utc": self.get("utc"),
 					"content": self.get('content')
 				}}, function(data){
-					console.log(data);
 					if(data.success){
 						self.set(data.model);
-						if(editor.md == self){
+						if(editor.md && data.model.content){
+							console.log("bad sync");
 							editor.setValue(self.get("content"));
 							editor.refresh();
 						}
@@ -258,12 +257,22 @@ var Folder = Backbone.Model.extend({
 		var self = this;
 		
 		var dealWithSync = function(data){
-			if(data.request_token){
+			if(data.error){
+				if(data.error == 'Token is invalid.'){
+					localStorage.removeItem("app_access_token");
+					$.get("db_connect", function(data){
+						dealWithSync(data);
+					});
+				}
+			}
+			else if(data.request_token){
 				var dropbox_link = document.createElement('a');
 				dropbox_link.href = data.request_token.authorize_url+"&oauth_callback="+data.callback;
+				dropbox_link.innerHTML = "Link to your Dropbox";
 				dropbox_link.style.position = "fixed";
 				dropbox_link.style.top = "0px";
 				dropbox_link.style.left = "0px";
+				dropbox_link.style.zIndex = "1000";
 				document.body.appendChild(dropbox_link);
 			} 
 			else{
@@ -371,6 +380,7 @@ var DocumentView = Backbone.View.extend({
 	},
 	
 	show: function() {
+		this.model.DBsync();
 		window.parent.document.title = this.model.get("name");
 		editor.md = this.model;
   	editor.refresh();
@@ -550,8 +560,8 @@ var AppView = Backbone.View.extend({
 		this.Root = new Folder({path: "/"});
 		this.Root.DBsync();
 		var self = this;
-		clearTimeout(self.delay);
-		self.delay = setTimeout(function(){self.Root.DBsync()}, 30000);
+		//clearTimeout(self.delay);
+		//self.delay = setTimeout(function(){self.Root.DBsync()}, 30000);
 		this.render();
 	},
 
