@@ -419,15 +419,14 @@ var DocumentListView = Backbone.View.extend({
 	template: _.template($('#document-list-template').html()),
 	// Delegated events for creating new items, and clearing completed ones.
 	events: {
-		"keypress #new-doc":  "createOnEnter",
-		"keyup #new-doc":     "showTooltip"
+		"keypress .new-doc":  "createOnEnter",
+		"keyup .new-doc":     "showTooltip"
 	},
 
 	// At initialization we bind to the relevant events on the `Todos`
 	// collection, when items are added or changed. Kick things off by
 	// loading any preexisting todos that might be saved in *localStorage*.
 	initialize: function() {
-		this.input = this.$("#new-doc");
 		//this.Docs = new Root;
 		this.model.bind('add',   this.addOne, this);
 		this.model.bind('reset', this.addAll, this);
@@ -438,6 +437,7 @@ var DocumentListView = Backbone.View.extend({
 
 	render: function() {
 		this.$el.html(this.template(this.model.toJSON()));
+		this.input = this.$(".new-doc");
 		this.addAll();
 		return this;
 	},
@@ -446,7 +446,7 @@ var DocumentListView = Backbone.View.extend({
 	// appending its element to the `<ul>`.
 	addOne: function(doc) {
 		var view = new DocumentView({model: doc});
-		this.$("#doc-list").append(view.render().el);
+		this.$(".doc-list").append(view.render().el);
 		if(doc.isNew() && !doc.get("db_path")){
 			view.show();
 		}
@@ -464,6 +464,7 @@ var DocumentListView = Backbone.View.extend({
 	//Deal with creating a new folder later
 	createOnEnter: function(e) {
 		var text = this.input.val();
+		console.log(text);
 		if (!text || e.keyCode != 13) return;
 		if(!editor.md){
 			this.model.create({name: text, content: editor.getValue(), needs_sync: true, utc: 0});
@@ -471,7 +472,7 @@ var DocumentListView = Backbone.View.extend({
 			this.model.create({name: text, needs_sync: true, utc: 0});
 		}
 		
-		this.input.val('');
+		this.input.val();
 	},
 
 	// Lazily show the tooltip that tells you to press `enter` to save

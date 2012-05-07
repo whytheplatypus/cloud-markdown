@@ -43,10 +43,10 @@ a img {
     line-height: 1;
   }
 
-#create-doc {
+.create-doc {
   position: relative;
 }
-  #create-doc input {
+  .create-doc input {
     width: 466px;
     font-size: 24px;
     font-family: inherit;
@@ -60,10 +60,10 @@ a img {
     -o-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
     box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
   }
-    #create-doc input::-webkit-input-placeholder {
+    .create-doc input::-webkit-input-placeholder {
       font-style: italic;
     }
-  #create-doc span {
+  .create-doc span {
     position: absolute;
     z-index: 999;
     width: 170px;
@@ -71,17 +71,17 @@ a img {
     margin-left: -85px;
   }
 
-#doc-list {
+.doc-list {
   margin-top: 10px;
 }
-  #doc-list li {
+  .doc-list li {
     padding: 12px 20px 11px 0;
     position: relative;
     font-size: 24px;
     line-height: 1.1em;
     border-bottom: 1px solid #cccccc;
   }
-    #doc-list li:after {
+    .doc-list li:after {
       content: "\0020";
       display: block;
       height: 0;
@@ -89,18 +89,18 @@ a img {
       overflow: hidden;
       visibility: hidden;
     }
-    #doc-list li.editing {
+    .doc-list li.editing {
       padding: 0;
       border-bottom: 0;
     }
-  #doc-list .editing .display,
-  #doc-list .edit {
+  .doc-list .editing .display,
+  .doc-list .edit {
     display: none;
   }
-    #doc-list .editing .edit {
+    .doc-list .editing .edit {
       display: block;
     }
-    #doc-list .editing input {
+    .doc-list .editing input {
       width: 444px;
       font-size: 24px;
       font-family: inherit;
@@ -115,14 +115,14 @@ a img {
       -o-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
       box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
     }
-  #doc-list .check {
+  .doc-list .check {
     position: relative;
     top: 9px;
     margin: 0 10px 0 7px;
     float: left;
   }
 
-  #doc-list .document-destroy {
+  .doc-list .document-destroy {
     position: absolute;
     right: 5px;
     top: 14px;
@@ -132,21 +132,21 @@ a img {
     height: 20px;
     background: url(destroy.png) no-repeat 0 0;
   }
-    #doc-list li:hover .document-destroy {
+    .doc-list li:hover .document-destroy {
       display: block;
     }
-    #doc-list .document-destroy:hover {
+    .doc-list .document-destroy:hover {
       background-position: 0 -20px;
     }
-  #doc-list .document-text{
+  .doc-list .document-text{
   	cursor: pointer;
   }
-  #doc-list .document-download, #doc-list .document-download-html{
+  .doc-list .document-download, .doc-list .document-download-html{
   	color: gray;
   	font-size:15px;
   	cursor: pointer;
   }
-  #doc-list .document-download:hover, #doc-list .document-download-html:hover{
+  .doc-list .document-download:hover, .doc-list .document-download-html:hover{
   	text-decoration:underline;
   }
 

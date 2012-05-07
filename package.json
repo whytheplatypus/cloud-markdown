@@ -1,0 +1,46 @@
+{
+  "subdomain": "MarkdownCloud",
+  "name": "MarkdownCloud",
+  "user": "whytheplatypus",
+  "version": "0.0.1-1",
+  "author": "whytheplatypus <whytheplatypus@gmail.com>",
+  "description": "a Markdown editing and preview web app with offline and dropbox support",
+  "main": "",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/whytheplatypus/cloud-markdown.git"
+  },
+  "keywords": [
+    "localStorage",
+    "Dropbox",
+    "Markdown"
+  ],
+  "bugs": {
+    "url": "https://github.com/whytheplatypus/cloud-markdown/issues"
+  },
+  "contributors": [
+    {
+      "name": "David Gage",
+      "email": "whytheplatypus@gmail.com"
+    },
+    {
+      "name": "Aaron Brewer",
+      "email": "me@aaronbrewer.net"
+    }
+  ],
+  "scripts": {
+    "start": "app.js"
+  },
+  "dependencies": {
+    "dbox": ">=0.4.1",
+    "jade": "*",
+    "express": "*"
+  },
+  "license": "MIT",
+  "engine": {
+    "node": ">=0.6"
+  },
+  "engines": {
+    "node": "0.6.x"
+  }
+}

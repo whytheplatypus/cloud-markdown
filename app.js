@@ -143,4 +143,5 @@ app.post('/sync', function(req, res){
 });
 
 app.listen(8080);
-console.log('Dropbox browser running on port ' + app.address().port);
+//this causes errors in nodejitsu, not sure why
+//console.log('Dropbox browser running on port ' + app.address().port);

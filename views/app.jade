@@ -133,10 +133,10 @@ block content
 		</div>
 	
 	script(type="text/template", id="document-list-template")
-		#create-doc
-				input(id="new-doc", placeholder="untitled", type="text")
+		.create-doc
+				input(class="new-doc", placeholder="untitled", type="text")
 				span(class="ui-tooltip-top", style="display:none;") Press Enter to save this task
-		ul(id = "doc-list")
+		ul(class = "doc-list")
 			
 		
 	script(type="text/template", id="folder-template").
@@ -145,7 +145,7 @@ block content
 		</div>
 //		
 	script(type="text/template", id="folder-list-template")
-		#create-doc
-				input(id="new-doc", placeholder="untitled", type="text")
+		.create-file
+				input(class="new-file", placeholder="untitled", type="text")
 				span(class="ui-tooltip-top", style="display:none;") Press Enter to save this task
-		ul(id = "doc-list")
+		ul(class = "file-list")
