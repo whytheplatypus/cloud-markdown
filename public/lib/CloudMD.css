@@ -1,3 +1,11 @@
+#db_link {
+	display:none;
+	z-index:1000;
+	position:fixed;
+	top:0px;
+	left:0px;
+}
+
 #mdapp div, #mdapp span, #mdapp applet, #mdapp object, #mdapp iframe,
 #mdapp h1, #mdapp h2, #mdapp h3, #mdapp h4, #mdapp h5, #mdapp h6, #mdapp p, #mdapp blockquote, #mdapp pre,
 #mdapp a, #mdapp abbr, #mdapp acronym, #mdapp address, #mdapp big, #mdapp cite, #mdapp code,

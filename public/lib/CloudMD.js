@@ -9,6 +9,29 @@ function utc() {
 
 $(function(){
 
+var dropbox_login = function(){
+	var access_token = false
+	if(localStorage.getItem("app_access_token")){
+		access_token = JSON.parse(localStorage.getItem("app_access_token"));
+	}
+	$.post("db_connect", access_token?{"access_token": access_token}:{}, function(data){
+		console.log(data);
+		console.log(access_token);
+		if(data.error && access_token){
+			localStorage.removeItem("app_access_token");
+			dropbox_login();
+		}
+		else if(data.request_token){
+			var dropbox_link = document.getElementById("db_link");
+			dropbox_link.href = data.request_token.authorize_url+"&oauth_callback="+data.callback;
+			dropbox_link.style.display = "block";
+		} 
+		else if(data.access_token){
+			localStorage.setItem("app_access_token", JSON.stringify(data.access_token));
+		}
+	});
+}
+
 //Set up our **marked** compiler
 marked.setOptions({
 	gfm: true,
@@ -109,7 +132,8 @@ var Document = Backbone.Model.extend({
 		return {
 			name: "untitled",
 			content: "##New Markdown Document",
-			needs_sync: false
+			needs_sync: false,
+			last_sync: 0
 		}
 	},
 	
@@ -139,19 +163,24 @@ var Document = Backbone.Model.extend({
 		this.set("needs_sync", true);
 		if(localStorage.getItem("app_access_token")){
 			var access_token = JSON.parse(localStorage.getItem("app_access_token"));
-			$.post("sync", {
-				"access_token": access_token,
-				"path": self.get('db_path'), 
-				"file": {
-					"name": self.get("name"),
-					"utc": self.get("utc"),
-					"content": self.get('content')
-				}}, function(data){
+			$.post("sync/file", {
+					"access_token": access_token,
+					"path": self.get('db_path'), 
+					"file": {
+						"name": self.get("name"),
+						"utc": self.get("utc"),
+						"last_sync": self.get("last_sync"),
+						"content": self.get('content')
+					}
+				}, 
+				function(data){
 					if(data.success){
 						self.set(data.model);
-						if(editor.md && data.model.content){
-							console.log("bad sync");
-							editor.setValue(self.get("content"));
+						self.set("last_sync", data.model.utc);
+						console.log(data);
+						console.log(self.get("name"));
+						console.log(self.get("last_sync"));
+						if(editor.md == self && data.model.content){
 							editor.refresh();
 						}
 					}
@@ -256,49 +285,26 @@ var Folder = Backbone.Model.extend({
 	DBsync: function(){
 		var self = this;
 		
-		var dealWithSync = function(data){
-			if(data.error){
-				if(data.error == 'Token is invalid.'){
-					localStorage.removeItem("app_access_token");
-					$.get("db_connect", function(data){
-						dealWithSync(data);
-					});
-				}
-			}
-			else if(data.request_token){
-				var dropbox_link = document.createElement('a');
-				dropbox_link.href = data.request_token.authorize_url+"&oauth_callback="+data.callback;
-				dropbox_link.innerHTML = "Link to your Dropbox";
-				dropbox_link.style.position = "fixed";
-				dropbox_link.style.top = "0px";
-				dropbox_link.style.left = "0px";
-				dropbox_link.style.zIndex = "1000";
-				document.body.appendChild(dropbox_link);
-			} 
-			else{
-				if(data.access_token){
-					localStorage.setItem("app_access_token", JSON.stringify(data.access_token));
-				}
-				self.get("docs").DBsync(data);
-				self.get("subFolders").DBsync(data);
-			}
-		}
-		
 		if(localStorage.getItem("app_access_token")){
 			var access_token = JSON.parse(localStorage.getItem("app_access_token"));
-			$.post("sync", {"access_token": access_token, 
+			$.post("sync/dir", {"access_token": access_token, 
 				"path": self.get("path"), 
 				"files": self.get("docs").files_to_sync(), 
 				"folders": self.get("subFolders").folders_to_sync()
 			}, function(data){
-				dealWithSync(data);
-				self.get("subFolders").forEach(function(folder){folder.DBsync();});
+				console.log("trying to sync");
+				console.log(data);
+				if(data.error){
+					dropbox_login();
+				}
+				else{
+					self.get("docs").DBsync(data);
+					self.get("subFolders").DBsync(data);
+				}
 			});
 		}
 		else {
-			$.get("db_connect", function(data){
-				dealWithSync(data);
-			});
+			dropbox_login();
 		}
 	}
 });
@@ -326,6 +332,7 @@ var FolderList = Backbone.Collection.extend({
 				}
 			}
 		}
+		self.forEach(function(folder){folder.DBsync();});
 	}
 });
 
@@ -352,6 +359,8 @@ FolderList.prototype.add = function(folder) {
     }
     Backbone.Collection.prototype.add.call(this, folder);
 }
+
+//##Veiws
 
 var DocumentView = Backbone.View.extend({
 	tagName: "li",
@@ -382,8 +391,9 @@ var DocumentView = Backbone.View.extend({
 	show: function() {
 		this.model.DBsync();
 		window.parent.document.title = this.model.get("name");
+		app_router.navigate(this.model.get("db_path"));
 		editor.md = this.model;
-  	editor.refresh();
+  		editor.refresh();
 	},
 	
 	edit: function() {
@@ -464,7 +474,6 @@ var DocumentListView = Backbone.View.extend({
 	//Deal with creating a new folder later
 	createOnEnter: function(e) {
 		var text = this.input.val();
-		console.log(text);
 		if (!text || e.keyCode != 13) return;
 		if(!editor.md){
 			this.model.create({name: text, content: editor.getValue(), needs_sync: true, utc: 0});
