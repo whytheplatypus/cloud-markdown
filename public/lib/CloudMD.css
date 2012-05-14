@@ -13,6 +13,7 @@ body, html{
 .full_screen{
 	width:100%;
 	z-index:200;
+	padding-left:10px;
 	position:absolute;
 }
 

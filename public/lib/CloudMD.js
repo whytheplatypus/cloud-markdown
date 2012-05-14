@@ -238,11 +238,28 @@ var Document = Backbone.Model.extend({
 	},
 	
 	clear: function() {
+		var self = this;
 		if(editor.md == this){
 			editor.md = null;
 			editor.setValue("##New Markdown Document");
 			window.parent.document.title = "Cloud-MarkDown";
 		}
+		console.log("test");
+		if(localStorage.getItem("app_access_token")){
+			var access_token = JSON.parse(localStorage.getItem("app_access_token"));
+			$.post("rm/file", {
+					"access_token": access_token,
+					"path": self.get('db_path'), 
+				}, 
+				function(data){
+					console.log(data);
+					if(data.error){
+						console.log(data);
+					}
+				}
+			);
+		}
+		
 		this.destroy();
 	}
 });
@@ -261,15 +278,20 @@ var DocumentList = Backbone.Collection.extend({
 	},
 	DBsync: function(data){
 		var self = this;
+		console.log(data);
 		if(data.files){
 			for(var i in data.files){
-				var document = self.find(function(doc){return doc.get("db_path") === data.files[i]})
-				if(!document){
-					var index = data.files[i].lastIndexOf("/");
-					var index_dot = data.files[i].lastIndexOf(".");
-					var name = data.files[i].substring(index+1, index_dot);
-					self.create({name: name, utc: 0, db_path: data.files[i], needs_sync: true});
-				} else {
+				var document = self.find(function(doc){return doc.get("db_path") === data.files[i].path})
+				if(!document && !data.files[i].is_deleted){
+					var index = data.files[i].path.lastIndexOf("/");
+					var index_dot = data.files[i].path.lastIndexOf(".");
+					var name = data.files[i].path.substring(index+1, index_dot);
+					self.create({name: name, utc: 0, db_path: data.files[i].path, needs_sync: true});
+				} 
+				else if(document && data.files[i].is_deleted){
+					document.clear();
+				}
+				else if(document){
 					document.set("needs_sync", true);
 					//document.set({content: data.files[i].content, utc: data.files[i].utc});
 				}
@@ -350,8 +372,11 @@ var FolderList = Backbone.Collection.extend({
 		//Now check for and create/delete folders, only creating for now
 		if(data.folders){//folders as an array paths
 			for(var i in data.folders){
-				if(!self.any(function(folder){return folder.get("path") === data.folder[i]})){
-					self.create({path: data.folders[i]});
+				var directory = self.find(function(folder){return folder.get("path") === data.folders[i].path})
+				if(!directory && !data.folders[i].is_deleted){
+					self.create({path: data.folders[i].path});
+				} else if(directory && data.folders[i].is_deleted){
+					directory.destroy();
 				}
 			}
 		}

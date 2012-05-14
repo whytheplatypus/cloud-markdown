@@ -55,6 +55,18 @@ app.post('/db_connect', function(req, res){
 	}
 });
 
+app.post('/rm/file', function(req,res){
+	if(!(req.session.client && req.session.client.metadata) && req.body.access_token){
+		req.session.client = dapp.createClient(req.body.access_token);//guess this should be a try
+		//something has to check for error here
+	}
+	if(req.body.path){
+		req.session.client.rm(req.body.path, function(status, reply){
+			res.json(reply);
+		});
+	}
+});
+
 app.post('/sync/file', function(req, res){
 	var options = {
 		file_limit         : 10000,              // optional
@@ -128,7 +140,7 @@ app.post('/sync/dir', function(req, res){
 		file_limit         : 10000,              // optional
 		//hash               : ,                // optional
 		list               : true,               // optional
-		include_deleted    : false,              // optional, change to true in order to update deleted files
+		include_deleted    : true,              // optional, change to true in order to update deleted files
 		//rev                : 7,                  // optional
 		locale             : "en",               // optional
 		root               : "sandbox"           // optional
@@ -148,11 +160,11 @@ app.post('/sync/dir', function(req, res){
 						var folders = new Array();
 						reply.contents.forEach(function(item){
 							
-							if(item.is_dir && (!req.body.folders || !req.body.folders[item.path])){
-								folders.push(item.path);
+							if(item.is_dir){
+								folders.push({path: item.path, is_deleted: item.is_deleted});
 							}
 							else if(!req.body.files || !req.body.files[item.path] || req.body.files[item.path].utc != Date.parse(item.modified)){
-								files.push(item.path);
+								files.push({path: item.path, is_deleted: item.is_deleted});
 							}
 						});
 						res.json({
