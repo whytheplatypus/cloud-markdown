@@ -179,4 +179,4 @@ app.post('/sync/dir', function(req, res){
 
 app.listen(8080);
 //this causes errors in nodejitsu, not sure why
-console.log('Dropbox browser running on port 80');
+console.log('Dropbox browser running on port 8080');

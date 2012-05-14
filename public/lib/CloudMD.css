@@ -1,11 +1,47 @@
+body, html{
+	overflow:hidden;
+}
+
 #db_link {
 	display:none;
 	z-index:1000;
-	position:fixed;
+	position:absolute;
 	top:0px;
 	left:0px;
 }
 
+.full_screen{
+	width:100%;
+	z-index:200;
+	position:absolute;
+}
+
+.closed{
+	display:none;
+}
+
+.expand{
+	z-index:1000; 
+	position: absolute; 
+	right: 10px; 
+	top: 5px;
+}
+
+#mdapp{
+	position:absolute;
+	top:0px;
+	left:-510px;
+	height:100%;
+	overflow:scroll;
+	z-index:1000;
+	-webkit-transition: left 1s ease-in-out;
+  -moz-transition: left 1s ease-in-out;
+  -o-transition: left 1s ease-in-out;
+}
+#mdapp:hover{
+	left:0px;
+	
+}
 #mdapp div, #mdapp span, #mdapp applet, #mdapp object, #mdapp iframe,
 #mdapp h1, #mdapp h2, #mdapp h3, #mdapp h4, #mdapp h5, #mdapp h6, #mdapp p, #mdapp blockquote, #mdapp pre,
 #mdapp a, #mdapp abbr, #mdapp acronym, #mdapp address, #mdapp big, #mdapp cite, #mdapp code,
@@ -25,10 +61,10 @@
   vertical-align: baseline;
 }
 
-ol, ul {
+#mdapp ol, #mdapp ul {
   list-style: none;
 }
-a img {
+#mdapp a img {
   border: none;
 }
 
@@ -51,10 +87,10 @@ a img {
     line-height: 1;
   }
 
-.create-doc {
+#mdapp .create-doc {
   position: relative;
 }
-  .create-doc input {
+  #mdapp .create-doc input {
     width: 466px;
     font-size: 24px;
     font-family: inherit;
@@ -68,10 +104,10 @@ a img {
     -o-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
     box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
   }
-    .create-doc input::-webkit-input-placeholder {
+    #mdapp .create-doc input::-webkit-input-placeholder {
       font-style: italic;
     }
-  .create-doc span {
+  #mdapp .create-doc span {
     position: absolute;
     z-index: 999;
     width: 170px;
@@ -79,17 +115,17 @@ a img {
     margin-left: -85px;
   }
 
-.doc-list {
+#mdapp .doc-list {
   margin-top: 10px;
 }
-  .doc-list li {
+  #mdapp .doc-list li {
     padding: 12px 20px 11px 0;
     position: relative;
     font-size: 24px;
     line-height: 1.1em;
     border-bottom: 1px solid #cccccc;
   }
-    .doc-list li:after {
+    #mdapp .doc-list li:after {
       content: "\0020";
       display: block;
       height: 0;
@@ -97,18 +133,18 @@ a img {
       overflow: hidden;
       visibility: hidden;
     }
-    .doc-list li.editing {
+    #mdapp .doc-list li.editing {
       padding: 0;
       border-bottom: 0;
     }
-  .doc-list .editing .display,
-  .doc-list .edit {
+  #mdapp .doc-list .editing .display,
+  #mdapp .doc-list .edit {
     display: none;
   }
-    .doc-list .editing .edit {
+    #mdapp .doc-list .editing .edit {
       display: block;
     }
-    .doc-list .editing input {
+    #mdapp .doc-list .editing input {
       width: 444px;
       font-size: 24px;
       font-family: inherit;
@@ -123,14 +159,14 @@ a img {
       -o-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
       box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
     }
-  .doc-list .check {
+  #mdapp .doc-list .check {
     position: relative;
     top: 9px;
     margin: 0 10px 0 7px;
     float: left;
   }
 
-  .doc-list .document-destroy {
+  #mdapp .doc-list .document-destroy {
     position: absolute;
     right: 5px;
     top: 14px;
@@ -140,21 +176,21 @@ a img {
     height: 20px;
     background: url(destroy.png) no-repeat 0 0;
   }
-    .doc-list li:hover .document-destroy {
+    #mdapp .doc-list li:hover .document-destroy {
       display: block;
     }
-    .doc-list .document-destroy:hover {
+    #mdapp .doc-list .document-destroy:hover {
       background-position: 0 -20px;
     }
-  .doc-list .document-text{
+  #mdapp .doc-list .document-text{
   	cursor: pointer;
   }
-  .doc-list .document-download, .doc-list .document-download-html{
+  #mdapp .doc-list .document-download, .doc-list .document-download-html{
   	color: gray;
   	font-size:15px;
   	cursor: pointer;
   }
-  .doc-list .document-download:hover, .doc-list .document-download-html:hover{
+  #mdapp .doc-list .document-download:hover, .doc-list .document-download-html:hover{
   	text-decoration:underline;
   }
 
