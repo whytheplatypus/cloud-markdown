@@ -76,8 +76,10 @@ var Editor = function(){
 	});
 
 	this.refresh = function(){
+		var cursorPos = editor.getCursor();
 		editor.setValue(self.md.get("content"));
 		editor.refresh();
+		editor.setCursor(cursorPos);
 	}
 	
 	this.getValue = function(){
@@ -166,22 +168,22 @@ var Document = Backbone.Model.extend({
 	initialize: function(){
 		var self = this;
 		if (!this.get("name")) {
-    	this.set({"name": this.defaults.name});
-    }
-    if (!this.get("content")){
-    	this.set({"content": this.defaults.content});
-    }
-    this.on("change:content", function(event){
-    	//editor.md.autoSave();
-    	//update editor
-    	
-    	self.save();
+	    	this.set({"name": this.defaults.name});
+	    }
+	    if (!this.get("content")){
+	    	this.set({"content": this.defaults.content});
+	    }
+	    this.on("change:content", function(event){
+	    	//editor.md.autoSave();
+	    	//update editor
+	    	
+	    	self.save();
 			clearTimeout(self.get("delay"));
 			self.set("delay", setTimeout(function(){self.DBsync()}, 500));
-    });
-    if(this.get("needs_sync") && this.get("utc") == 0){
-    	this.DBsync(); //could also listen for a needs_sync change
-    }
+	    });
+	    if(this.get("needs_sync") && this.get("utc") == 0){
+	    	this.DBsync(); //could also listen for a needs_sync change
+	    }
 	},
 	
 	DBsync: function(){
@@ -618,8 +620,8 @@ var AppView = Backbone.View.extend({
 		this.Root = new Folder({path: "/"});
 		this.Root.DBsync();
 		var self = this;
-		//clearTimeout(self.delay);
-		//self.delay = setTimeout(function(){self.Root.DBsync()}, 30000);
+		clearTimeout(self.delay);
+		self.delay = setTimeout(function(){self.Root.DBsync()}, 30000);
 		this.render();
 	},
 

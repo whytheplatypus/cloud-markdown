@@ -87,12 +87,13 @@ app.post('/sync/file', function(req, res){
 				if(!reply.error && !reply.is_dir){
 					//sync file with dropbox
 					//Always default to dropbox version
-					if(req.body.file.utc < Date.parse(reply.modified) || req.body.file.last_sync < Date.parse(reply.modified)){
+					if(req.body.file.last_sync < Date.parse(reply.modified)){
 						req.session.client.get(req.body.path, function(status, reply){
+							var now = new Date();
 							res.json({
 								success: true,
 								model: {
-									utc: Date.parse(reply.modified),
+									utc: now.getTime(),
 									content: reply.toString()
 								}
 							});
@@ -190,5 +191,5 @@ app.post('/sync/dir', function(req, res){
 });
 
 app.listen(8080);
-//this causes errors in nodejitsu, not sure why
+
 console.log('Dropbox browser running on port 8080');
