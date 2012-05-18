@@ -174,7 +174,7 @@ app.post('/sync/dir', function(req, res){
 							if(item.is_dir){
 								folders.push({path: item.path, is_deleted: item.is_deleted});
 							}
-							else if((!req.body.files || !req.body.files[item.path] || req.body.files[item.path].last_sync < item.revision || req.body.files[item.path].utc > Date.parse(item.modified) || (req.body.files[item.path] && item.is_deleted)) && !(!req.body.files[item.path] && item.is_deleted)){
+							else if(!req.body.files || ((!req.body.files[item.path] || req.body.files[item.path].last_sync < item.revision || req.body.files[item.path].utc > Date.parse(item.modified) || (req.body.files[item.path] && item.is_deleted)) && !(!req.body.files[item.path] && item.is_deleted))){
 								files.push({path: item.path, is_deleted: item.is_deleted});
 							}
 						});
