@@ -51,8 +51,18 @@ body, html{
 
 #mdapp:after{
 	border-right: solid;
-	position:relative;
-	right:5px;
+	border-right-width: 1px;
+	border-right-color: 
+	silver;
+	border-left: solid 1px 
+	silver;
+	height: 100%;
+	width: 2px;
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0px;
+	right: 2px;
 	
 }
 
