@@ -7,19 +7,21 @@ function utc() {
 	return now.getTime();
 }
 
+var collapse = '<svg style="overflow-x: hidden; overflow-y: hidden; " height="40" version="1.1" width="40" xmlns="http://www.w3.org/2000/svg"><desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); ">Created with Raphaël 2.1.0</desc><defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); "><linearGradient style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " id="8290-_0050af-_002c62" x1="0" y1="1" x2="6.123233995736766e-17" y2="0" gradientTransform="matrix(1,0,0,1,-4,-4)"><stop style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " offset="0%" stop-color="#0050af"></stop><stop style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " offset="100%" stop-color="#002c62"></stop></linearGradient></defs><path style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-linejoin: round; opacity: 0; " fill="none" stroke="#ffffff" d="M25.545,23.328L17.918,15.623L25.534,8.007L27.391,9.864L29.649,1.436L21.222,3.694L23.058,5.53L15.455,13.134L7.942,5.543L9.809,3.696L1.393,1.394L3.608,9.833L5.456,8.005L12.98,15.608L5.465,23.123L3.609,21.268L1.351,29.695L9.779,27.438L7.941,25.6L15.443,18.098L23.057,25.791L21.19,27.638L29.606,29.939L27.393,21.5Z" stroke-width="3" stroke-linejoin="round" opacity="0" transform="matrix(1,0,0,1,4,4)"></path><path style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 1; fill-opacity: 1; " fill="url(#8290-_0050af-_002c62)" stroke="none" d="M25.545,23.328L17.918,15.623L25.534,8.007L27.391,9.864L29.649,1.436L21.222,3.694L23.058,5.53L15.455,13.134L7.942,5.543L9.809,3.696L1.393,1.394L3.608,9.833L5.456,8.005L12.98,15.608L5.465,23.123L3.609,21.268L1.351,29.695L9.779,27.438L7.941,25.6L15.443,18.098L23.057,25.791L21.19,27.638L29.606,29.939L27.393,21.5Z" transform="matrix(1,0,0,1,4,4)" opacity="1" fill-opacity="1"></path><rect style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0; " x="0" y="0" width="32" height="32" r="0" rx="0" ry="0" fill="#000000" stroke="#000" opacity="0"></rect></svg>';
+
+var expand = '<svg style="overflow-x: hidden; overflow-y: hidden; " height="40" version="1.1" width="40" xmlns="http://www.w3.org/2000/svg"><desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); ">Created with Raphaël 2.1.0</desc><defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); "></defs><path style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-linejoin: round; opacity: 0; " fill="none" stroke="#ffffff" d="M25.083,18.895L16.654999999999998,16.636L18.912999999999997,25.064L20.750999999999998,23.227L27.804,30.28L30.279999999999998,27.804000000000002L23.226999999999997,20.751L25.083,18.895ZM5.542,11.731L13.97,13.989L11.712,5.561L9.874,7.398L3.196,0.72L0.72,3.196L7.398,9.874L5.542,11.731ZM7.589,20.935L0.7190000000000003,27.804L3.1950000000000003,30.279999999999998L10.064,23.410999999999998L11.922,25.267999999999997L14.18,16.839999999999996L5.751999999999999,19.097999999999995L7.589,20.935ZM23.412,10.064L30.279,3.194L27.803,0.718L20.935000000000002,7.587L19.079,5.731L16.821,14.159L25.249000000000002,11.9L23.412,10.064Z" stroke-width="3" stroke-linejoin="round" opacity="0" transform="matrix(1,0,0,1,4,4)"></path><path style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " fill="#333333" stroke="none" d="M25.083,18.895L16.654999999999998,16.636L18.912999999999997,25.064L20.750999999999998,23.227L27.804,30.28L30.279999999999998,27.804000000000002L23.226999999999997,20.751L25.083,18.895ZM5.542,11.731L13.97,13.989L11.712,5.561L9.874,7.398L3.196,0.72L0.72,3.196L7.398,9.874L5.542,11.731ZM7.589,20.935L0.7190000000000003,27.804L3.1950000000000003,30.279999999999998L10.064,23.410999999999998L11.922,25.267999999999997L14.18,16.839999999999996L5.751999999999999,19.097999999999995L7.589,20.935ZM23.412,10.064L30.279,3.194L27.803,0.718L20.935000000000002,7.587L19.079,5.731L16.821,14.159L25.249000000000002,11.9L23.412,10.064Z" transform="matrix(1,0,0,1,4,4)"></path><rect style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0; " x="0" y="0" width="32" height="32" r="0" rx="0" ry="0" fill="#000000" stroke="#000" opacity="0"></rect></svg>';
+
 $(function(){
 
-var dropbox_login = function(){
+var dropbox_login = function(callback){
 	var access_token = false
 	if(localStorage.getItem("app_access_token")){
 		access_token = JSON.parse(localStorage.getItem("app_access_token"));
 	}
 	$.post("db_connect", access_token?{"access_token": access_token}:{}, function(data){
-		console.log(data);
-		console.log(access_token);
 		if(data.error && access_token){
 			localStorage.removeItem("app_access_token");
-			dropbox_login();
+			dropbox_login(callback);
 		}
 		else if(data.request_token){
 			var dropbox_link = document.getElementById("db_link");
@@ -28,6 +30,7 @@ var dropbox_login = function(){
 		} 
 		else if(data.access_token){
 			localStorage.setItem("app_access_token", JSON.stringify(data.access_token));
+			callback();
 		}
 	});
 }
@@ -122,11 +125,11 @@ var Editor = function(){
 		$('#preview').toggleClass("closed");
 		if(this.getAttribute('data-fs') == "true"){
 			this.setAttribute('data-fs', "false");
-			this.innerHTML = '<svg style="overflow-x: hidden; overflow-y: hidden; " height="40" version="1.1" width="40" xmlns="http://www.w3.org/2000/svg"><desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); ">Created with Raphaël 2.1.0</desc><defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); "><linearGradient style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " id="8290-_0050af-_002c62" x1="0" y1="1" x2="6.123233995736766e-17" y2="0" gradientTransform="matrix(1,0,0,1,-4,-4)"><stop style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " offset="0%" stop-color="#0050af"></stop><stop style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " offset="100%" stop-color="#002c62"></stop></linearGradient></defs><path style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-linejoin: round; opacity: 0; " fill="none" stroke="#ffffff" d="M25.545,23.328L17.918,15.623L25.534,8.007L27.391,9.864L29.649,1.436L21.222,3.694L23.058,5.53L15.455,13.134L7.942,5.543L9.809,3.696L1.393,1.394L3.608,9.833L5.456,8.005L12.98,15.608L5.465,23.123L3.609,21.268L1.351,29.695L9.779,27.438L7.941,25.6L15.443,18.098L23.057,25.791L21.19,27.638L29.606,29.939L27.393,21.5Z" stroke-width="3" stroke-linejoin="round" opacity="0" transform="matrix(1,0,0,1,4,4)"></path><path style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 1; fill-opacity: 1; " fill="url(#8290-_0050af-_002c62)" stroke="none" d="M25.545,23.328L17.918,15.623L25.534,8.007L27.391,9.864L29.649,1.436L21.222,3.694L23.058,5.53L15.455,13.134L7.942,5.543L9.809,3.696L1.393,1.394L3.608,9.833L5.456,8.005L12.98,15.608L5.465,23.123L3.609,21.268L1.351,29.695L9.779,27.438L7.941,25.6L15.443,18.098L23.057,25.791L21.19,27.638L29.606,29.939L27.393,21.5Z" transform="matrix(1,0,0,1,4,4)" opacity="1" fill-opacity="1"></path><rect style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0; " x="0" y="0" width="32" height="32" r="0" rx="0" ry="0" fill="#000000" stroke="#000" opacity="0"></rect></svg>'
+			this.innerHTML = expand;
 		}
 		else {
 			this.setAttribute('data-fs', "true");
-			this.innerHTML = '<svg style="overflow-x: hidden; overflow-y: hidden; " height="40" version="1.1" width="40" xmlns="http://www.w3.org/2000/svg"><desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); ">Created with Raphaël 2.1.0</desc><defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); "></defs><path style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-linejoin: round; opacity: 0; " fill="none" stroke="#ffffff" d="M25.083,18.895L16.654999999999998,16.636L18.912999999999997,25.064L20.750999999999998,23.227L27.804,30.28L30.279999999999998,27.804000000000002L23.226999999999997,20.751L25.083,18.895ZM5.542,11.731L13.97,13.989L11.712,5.561L9.874,7.398L3.196,0.72L0.72,3.196L7.398,9.874L5.542,11.731ZM7.589,20.935L0.7190000000000003,27.804L3.1950000000000003,30.279999999999998L10.064,23.410999999999998L11.922,25.267999999999997L14.18,16.839999999999996L5.751999999999999,19.097999999999995L7.589,20.935ZM23.412,10.064L30.279,3.194L27.803,0.718L20.935000000000002,7.587L19.079,5.731L16.821,14.159L25.249000000000002,11.9L23.412,10.064Z" stroke-width="3" stroke-linejoin="round" opacity="0" transform="matrix(1,0,0,1,4,4)"></path><path style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " fill="#333333" stroke="none" d="M25.083,18.895L16.654999999999998,16.636L18.912999999999997,25.064L20.750999999999998,23.227L27.804,30.28L30.279999999999998,27.804000000000002L23.226999999999997,20.751L25.083,18.895ZM5.542,11.731L13.97,13.989L11.712,5.561L9.874,7.398L3.196,0.72L0.72,3.196L7.398,9.874L5.542,11.731ZM7.589,20.935L0.7190000000000003,27.804L3.1950000000000003,30.279999999999998L10.064,23.410999999999998L11.922,25.267999999999997L14.18,16.839999999999996L5.751999999999999,19.097999999999995L7.589,20.935ZM23.412,10.064L30.279,3.194L27.803,0.718L20.935000000000002,7.587L19.079,5.731L16.821,14.159L25.249000000000002,11.9L23.412,10.064Z" transform="matrix(1,0,0,1,4,4)"></path><rect style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0; " x="0" y="0" width="32" height="32" r="0" rx="0" ry="0" fill="#000000" stroke="#000" opacity="0"></rect></svg>'
+			this.innerHTML = collapse;
 		}
 	});
 	$("#preview .expand").click(function(){
@@ -134,11 +137,11 @@ var Editor = function(){
 		$('#code').toggleClass("closed");
 		if(this.getAttribute('data-fs') == "true"){
 			this.setAttribute('data-fs', "false");
-			this.innerHTML = '<svg style="overflow-x: hidden; overflow-y: hidden; " height="40" version="1.1" width="40" xmlns="http://www.w3.org/2000/svg"><desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); ">Created with Raphaël 2.1.0</desc><defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); "><linearGradient style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " id="8290-_0050af-_002c62" x1="0" y1="1" x2="6.123233995736766e-17" y2="0" gradientTransform="matrix(1,0,0,1,-4,-4)"><stop style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " offset="0%" stop-color="#0050af"></stop><stop style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " offset="100%" stop-color="#002c62"></stop></linearGradient></defs><path style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-linejoin: round; opacity: 0; " fill="none" stroke="#ffffff" d="M25.545,23.328L17.918,15.623L25.534,8.007L27.391,9.864L29.649,1.436L21.222,3.694L23.058,5.53L15.455,13.134L7.942,5.543L9.809,3.696L1.393,1.394L3.608,9.833L5.456,8.005L12.98,15.608L5.465,23.123L3.609,21.268L1.351,29.695L9.779,27.438L7.941,25.6L15.443,18.098L23.057,25.791L21.19,27.638L29.606,29.939L27.393,21.5Z" stroke-width="3" stroke-linejoin="round" opacity="0" transform="matrix(1,0,0,1,4,4)"></path><path style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 1; fill-opacity: 1; " fill="url(#8290-_0050af-_002c62)" stroke="none" d="M25.545,23.328L17.918,15.623L25.534,8.007L27.391,9.864L29.649,1.436L21.222,3.694L23.058,5.53L15.455,13.134L7.942,5.543L9.809,3.696L1.393,1.394L3.608,9.833L5.456,8.005L12.98,15.608L5.465,23.123L3.609,21.268L1.351,29.695L9.779,27.438L7.941,25.6L15.443,18.098L23.057,25.791L21.19,27.638L29.606,29.939L27.393,21.5Z" transform="matrix(1,0,0,1,4,4)" opacity="1" fill-opacity="1"></path><rect style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0; " x="0" y="0" width="32" height="32" r="0" rx="0" ry="0" fill="#000000" stroke="#000" opacity="0"></rect></svg>'
+			this.innerHTML = expand;
 		}
 		else {
 			this.setAttribute('data-fs', "true");
-			this.innerHTML = '<svg style="overflow-x: hidden; overflow-y: hidden; " height="40" version="1.1" width="40" xmlns="http://www.w3.org/2000/svg"><desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); ">Created with Raphaël 2.1.0</desc><defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); "></defs><path style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-linejoin: round; opacity: 0; " fill="none" stroke="#ffffff" d="M25.083,18.895L16.654999999999998,16.636L18.912999999999997,25.064L20.750999999999998,23.227L27.804,30.28L30.279999999999998,27.804000000000002L23.226999999999997,20.751L25.083,18.895ZM5.542,11.731L13.97,13.989L11.712,5.561L9.874,7.398L3.196,0.72L0.72,3.196L7.398,9.874L5.542,11.731ZM7.589,20.935L0.7190000000000003,27.804L3.1950000000000003,30.279999999999998L10.064,23.410999999999998L11.922,25.267999999999997L14.18,16.839999999999996L5.751999999999999,19.097999999999995L7.589,20.935ZM23.412,10.064L30.279,3.194L27.803,0.718L20.935000000000002,7.587L19.079,5.731L16.821,14.159L25.249000000000002,11.9L23.412,10.064Z" stroke-width="3" stroke-linejoin="round" opacity="0" transform="matrix(1,0,0,1,4,4)"></path><path style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " fill="#333333" stroke="none" d="M25.083,18.895L16.654999999999998,16.636L18.912999999999997,25.064L20.750999999999998,23.227L27.804,30.28L30.279999999999998,27.804000000000002L23.226999999999997,20.751L25.083,18.895ZM5.542,11.731L13.97,13.989L11.712,5.561L9.874,7.398L3.196,0.72L0.72,3.196L7.398,9.874L5.542,11.731ZM7.589,20.935L0.7190000000000003,27.804L3.1950000000000003,30.279999999999998L10.064,23.410999999999998L11.922,25.267999999999997L14.18,16.839999999999996L5.751999999999999,19.097999999999995L7.589,20.935ZM23.412,10.064L30.279,3.194L27.803,0.718L20.935000000000002,7.587L19.079,5.731L16.821,14.159L25.249000000000002,11.9L23.412,10.064Z" transform="matrix(1,0,0,1,4,4)"></path><rect style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0; " x="0" y="0" width="32" height="32" r="0" rx="0" ry="0" fill="#000000" stroke="#000" opacity="0"></rect></svg>'
+			this.innerHTML = collapse;
 		}
 	});
 	window.onresize = syncSize;
@@ -161,6 +164,7 @@ var Document = Backbone.Model.extend({
 			name: "untitled",
 			content: "##New Markdown Document",
 			needs_sync: false,
+			syncing: false,
 			last_sync: 0
 		}
 	},
@@ -190,28 +194,50 @@ var Document = Backbone.Model.extend({
 		var self = this;
 		this.set("needs_sync", true);
 		if(localStorage.getItem("app_access_token")){
-			var access_token = JSON.parse(localStorage.getItem("app_access_token"));
-			$.post("sync/file", {
-					"access_token": access_token,
-					"path": self.get('db_path'), 
-					"file": {
-						"name": self.get("name"),
-						"utc": self.get("utc"),
-						"last_sync": self.get("last_sync"),
-						"content": self.get('content')
-					}
-				}, 
-				function(data){
-					if(data.success){
-						self.set(data.model);
-						self.set("last_sync", utc());
-						if(editor.md == self && data.model.content){
-							editor.refresh();
+			if(!this.get('syncing')){
+				console.log("start sync");
+				var access_token = JSON.parse(localStorage.getItem("app_access_token"));
+				this.set('syncing', true);
+				$.post("sync/file", {
+						"access_token": access_token,
+						"path": self.get('db_path'), 
+						"file": {
+							"name": self.get("name"),
+							"utc": self.get("utc"),
+							"last_sync": self.get("last_sync"),
+							"content": self.get('content')
 						}
+					}, 
+					function(data){
+						if(data.success){
+							if(editor.md == self && data.model.content){
+								console.log("Should we reload the content?")
+								//console.log("somethings up");
+								console.log(data);
+								console.log(self);
+								//editor.refresh();
+								
+								var syncFromDB = confirm("This file has been edited on the dropbox side, hit OK to reload or cancel to overwrite with your local version");
+								if(syncFromDB){
+									self.set(data.model);
+								} else{
+									self.set({last_sync: data.model.last_sync, utc: data.model.utc});
+								}
+								
+							} else {
+								self.set(data.model);
+							}
+							self.set("needs_sync", false);
+							console.log("end sync")
+							
+						}
+						else if(data.error){
+							self.trigger('error');
+						}
+						self.set('syncing', false);
 					}
-					self.set("needs_sync", false);
-				}
-			);
+				);
+			}
 		}
 	},
 	
@@ -246,7 +272,6 @@ var Document = Backbone.Model.extend({
 			editor.setValue("##New Markdown Document");
 			window.parent.document.title = "Cloud-MarkDown";
 		}
-		console.log("test");
 		if(localStorage.getItem("app_access_token")){
 			var access_token = JSON.parse(localStorage.getItem("app_access_token"));
 			$.post("rm/file", {
@@ -274,14 +299,14 @@ var DocumentList = Backbone.Collection.extend({
 	files_to_sync: function(){
 		var files = {};
 		this.forEach(function(doc){
-			files[doc.get("db_path")] = {"utc":doc.get("utc")};
+			files[doc.get("db_path")] = {"utc":doc.get("utc"), "last_sync":doc.get('last_sync')};
 		});
 		return files;
 	},
 	DBsync: function(data){
 		var self = this;
-		console.log(data);
 		if(data.files){
+			console.log(data.files);
 			for(var i in data.files){
 				var document = self.find(function(doc){return doc.get("db_path") === data.files[i].path})
 				if(!document && !data.files[i].is_deleted){
@@ -301,6 +326,8 @@ var DocumentList = Backbone.Collection.extend({
 			self.forEach(function(doc){
 				if(doc.get("needs_sync")){
 					doc.DBsync();
+				} else {
+					doc.set("needs_sync", false);
 				}
 			});
 		}
@@ -339,10 +366,9 @@ var Folder = Backbone.Model.extend({
 				"files": self.get("docs").files_to_sync(), 
 				"folders": self.get("subFolders").folders_to_sync()
 			}, function(data){
-				console.log("trying to sync");
 				console.log(data);
 				if(data.error){
-					dropbox_login();
+					dropbox_login(function(){self.DBsync();});
 				}
 				else{
 					self.get("docs").DBsync(data);
@@ -351,7 +377,7 @@ var Folder = Backbone.Model.extend({
 			});
 		}
 		else {
-			dropbox_login();
+			dropbox_login(function(){self.DBsync();});
 		}
 	}
 });
@@ -430,11 +456,34 @@ var DocumentView = Backbone.View.extend({
 	initialize: function() {
 		this.model.bind('change:name', this.render, this);
 		this.model.bind('destroy', this.remove, this);
+
+		this.model.on('change:syncing', this.updateSync, this);
+		this.model.on('error', this.syncError, this)
+	},
+	
+	syncError: function(){
+		this.$(".failed_sync").css('display', 'block');
+		this.$(".sync").css('display', 'none');
+		this.$(".check").css('display', 'none');
+	},
+	
+	updateSync: function(model, value, options){
+		this.$(".failed_sync").css('display', 'none');
+		//console.log(value);
+		if(value){
+			this.$(".sync").css('display', 'block');
+			this.$(".check").css('display', 'none');
+		} else {
+			console.log("check");
+			this.$(".sync").css('display', 'none');
+			this.$(".check").css('display', 'block');
+		}
 	},
 	
 	render: function() {
 		this.$el.html(this.template(this.model.toJSON()));
 		this.input = this.$('.document-input');
+		this.updateSync(this.model, this.model.get("needs_sync"));
 		return this;
 	},
 	
@@ -531,7 +580,7 @@ var DocumentListView = Backbone.View.extend({
 			this.model.create({name: text, needs_sync: true, utc: 0});
 		}
 		
-		this.input.val();
+		this.input.val('');
 	},
 
 	// Lazily show the tooltip that tells you to press `enter` to save
@@ -555,7 +604,6 @@ var FolderListView = Backbone.View.extend({
 	initialize: function() {
 		//this.input = this.$("#new-doc");
 		//this.Docs = new Root;
-		console.log(this);
 		var self = this;
 		this.model.bind('add',   function(folder){self.addOne(folder)}, this);
 		this.model.bind('reset', function(){self.addAll()}, this);
@@ -566,7 +614,6 @@ var FolderListView = Backbone.View.extend({
 	
 	render: function(){
 		//this.$el.html(this.template(this.model.toJSON()));
-		console.log(this);
 		this.addAll();
 		return this;
 	},
@@ -574,14 +621,12 @@ var FolderListView = Backbone.View.extend({
 	// Add a single doc item to the list by creating a view for it, and
 	// appending its element to the `<ul>`.
 	addOne: function(folder) {
-		console.log(this);
 		var view = new FolderView({model: folder});
 		this.$el.append(view.render().el);
 	},
 
 	// Add all items in the **Docs** collection at once.
 	addAll: function() {
-		console.log(this);
 		var self = this;
 		//document.getElementById("doc-list").innerHTML = null;
 		this.model.forEach(function(folder){self.addOne(folder)});
@@ -618,10 +663,14 @@ var AppView = Backbone.View.extend({
 	initialize: function() {
 		//this.input = this.$("#new-doc");
 		this.Root = new Folder({path: "/"});
-		this.Root.DBsync();
+		//this.Root.DBsync();
 		var self = this;
-		clearTimeout(self.delay);
-		self.delay = setTimeout(function(){self.Root.DBsync()}, 30000);
+		var rootSync = function(){
+			clearTimeout(self.delay);
+			self.Root.DBsync();
+			self.delay = setTimeout(rootSync, 30000);
+		}
+		rootSync();
 		this.render();
 	},
 
@@ -643,7 +692,6 @@ var AppRouter = Backbone.Router.extend({
 		},
 		getFile: function(path){
 			path = "/"+path;
-			console.log(path);
 			var searchFolder = function(folder){
 				var foundDoc = folder.get("docs").find(function(doc){
 					return doc.get("db_path") === path;
@@ -657,7 +705,6 @@ var AppRouter = Backbone.Router.extend({
 					});
 				} 
 				if(foundDoc) {
-					console.log(foundDoc);
 					return foundDoc;
 				} else {
 					return false

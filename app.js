@@ -87,27 +87,36 @@ app.post('/sync/file', function(req, res){
 				if(!reply.error && !reply.is_dir){
 					//sync file with dropbox
 					//Always default to dropbox version
-					if(req.body.file.last_sync < Date.parse(reply.modified)){
+					if(req.body.file.last_sync < reply.revision){
+						//work around until the dbox version of get with metadata is in npm
+						var metadata = reply;
 						req.session.client.get(req.body.path, function(status, reply){
-							var now = new Date();
 							res.json({
 								success: true,
 								model: {
-									utc: now.getTime(),
-									content: reply.toString()
+									utc: Date.parse(metadata.modified),
+									last_sync: metadata.revision,									content: reply.toString()
 								}
 							});
 						});
 					}
-					else if(req.body.file.utc >= Date.parse(reply.modified)){
-						var now = new Date();
+					else if(req.body.file.utc > Date.parse(reply.modified)){
 						req.session.client.put(req.body.path, req.body.file.content, function(status, reply){
 							res.json({
 								success: true,
 								model:{
-									utc: now.getTime()
+									last_sync: reply.revision,
+									utc: Date.parse(reply.modified)
 								}
 							});
+						});
+					}
+					else {
+						res.json({											success: true,
+							model:{
+								last_sync: reply.revision,
+								utc: Date.parse(reply.modified)
+							}
 						});
 					}
 				}
@@ -124,6 +133,7 @@ app.post('/sync/file', function(req, res){
 						success: true,
 						model:{
 							db_path: path,
+							last_sync: reply.revision,
 							utc: Date.parse(reply.modified)
 						}
 					});
@@ -164,7 +174,7 @@ app.post('/sync/dir', function(req, res){
 							if(item.is_dir){
 								folders.push({path: item.path, is_deleted: item.is_deleted});
 							}
-							else if(!req.body.files || !req.body.files[item.path] || req.body.files[item.path].utc != Date.parse(item.modified)){
+							else if((!req.body.files || !req.body.files[item.path] || req.body.files[item.path].last_sync < item.revision || req.body.files[item.path].utc > Date.parse(item.modified) || (req.body.files[item.path] && item.is_deleted)) && !(!req.body.files[item.path] && item.is_deleted)){
 								files.push({path: item.path, is_deleted: item.is_deleted});
 							}
 						});

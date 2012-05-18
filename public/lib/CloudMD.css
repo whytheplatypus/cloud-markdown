@@ -1,5 +1,7 @@
 body, html{
 	overflow:hidden;
+	margin:0px;
+	padding:0px;
 }
 
 #db_link {
@@ -8,6 +10,12 @@ body, html{
 	position:absolute;
 	top:0px;
 	left:0px;
+}
+
+#preview{
+  background: #f5f5ff;
+  border-left: 1px solid #e5e5ee;
+  padding-left:5px;
 }
 
 .full_screen{
@@ -40,6 +48,14 @@ body, html{
   -moz-transition: left 1s ease-in-out;
   -o-transition: left 1s ease-in-out;
 }
+
+#mdapp:after{
+	border-right: solid;
+	position:relative;
+	right:5px;
+	
+}
+
 #mdapp:hover{
 	left:0px;
 	
