@@ -18,6 +18,10 @@ body, html{
   padding-left:5px;
 }
 
+#preview .preview_content{
+	padding:20px;
+}
+
 .full_screen{
 	width:100%;
 	z-index:200;
@@ -42,18 +46,22 @@ body, html{
 	top:0px;
 	left:-510px;
 	height:100%;
-	overflow:scroll;
+	overflow:hidden;
 	z-index:1000;
 	-webkit-transition: left 1s ease-in-out;
   -moz-transition: left 1s ease-in-out;
   -o-transition: left 1s ease-in-out;
+  cursor:pointer;
+}
+
+#mdapp #docs{
+	overflow:hidden;
 }
 
 #mdapp:after{
 	border-right: solid;
 	border-right-width: 1px;
-	border-right-color: 
-	silver;
+	border-right-color: silver;
 	border-left: solid 1px 
 	silver;
 	height: 100%;
@@ -66,10 +74,10 @@ body, html{
 	
 }
 
-#mdapp:hover{
+#mdapp.pulled_out{
 	left:0px;
-	
 }
+
 #mdapp div, #mdapp span, #mdapp applet, #mdapp object, #mdapp iframe,
 #mdapp h1, #mdapp h2, #mdapp h3, #mdapp h4, #mdapp h5, #mdapp h6, #mdapp p, #mdapp blockquote, #mdapp pre,
 #mdapp a, #mdapp abbr, #mdapp acronym, #mdapp address, #mdapp big, #mdapp cite, #mdapp code,
@@ -99,7 +107,6 @@ body, html{
 
 #mdapp {
   width: 480px;
-  margin: 0 auto 40px;
   background: white;
   padding: 20px;
   -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 5px 6px 0;
@@ -213,12 +220,12 @@ body, html{
   #mdapp .doc-list .document-text{
   	cursor: pointer;
   }
-  #mdapp .doc-list .document-download, .doc-list .document-download-html{
+  #mdapp .doc-list .document-download, #mdapp .doc-list .document-download-html{
   	color: gray;
   	font-size:15px;
   	cursor: pointer;
   }
-  #mdapp .doc-list .document-download:hover, .doc-list .document-download-html:hover{
+  #mdapp .doc-list .document-download:hover, #mdapp .doc-list .document-download-html:hover{
   	text-decoration:underline;
   }
 
@@ -340,4 +347,18 @@ body, html{
   -moz-transform:rotate(180deg);
   -khtml-transform:rotate(180deg);
   -webkit-transform:rotate(180deg);
+}
+
+@media only screen and (device-width: 768px) {
+  /* For general iPad layouts */
+  #mdapp .doc-list .document-destroy {
+    position: absolute;
+    right: 5px;
+    top: 14px;
+    display: block;/*iOS change here*/
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    background: url(destroy.png) no-repeat 0 0;
+  }
 }
