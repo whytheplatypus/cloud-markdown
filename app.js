@@ -35,11 +35,20 @@ app.post('/db_connect', function(req, res){
 	else if(req.session.request_token){
 		dapp.access_token(req.session.request_token, function(status, access_token){
 			//test access_token
-			req.session.access_token = access_token;
-			req.session.client = dapp.createClient(access_token);
-			res.json({
-				access_token: req.session.access_token
-			});
+            if(status == 200){
+    			req.session.access_token = access_token;
+    			req.session.client = dapp.createClient(access_token);
+    			res.json({
+    				"access_token": req.session.access_token
+    			});
+            } else if(req.session.request_token.authorize_url){
+                var host = req.headers.host;
+                var callback = "http://"+host+"/"
+                res.json({
+                    request_token: req.session.request_token,
+                    callback: callback
+                });
+            }
 		});
 	}
 	else {

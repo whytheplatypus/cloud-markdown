@@ -85,14 +85,6 @@ block style
 	
 		
 block scripts
-	//
-		script(src="https://getfirebug.com/firebug-lite.js")
-			{
-				overrideConsole: true,
-				startInNewWindow: false,
-				startOpened: false,
-				enableTrace: true
-			}
 	script(type="application/javascript", src="lib/add2home.js")
 				
 	script(src="lib/smoke/smoke.min.js")
@@ -117,8 +109,8 @@ block scripts
 	script( src="lib/vendor/json2.js")
 	script( src="lib/vendor/jquery-1.7.1.js")
 	
-	script( src="http://eightmedia.github.com/hammer.js/hammer.js")
-	script( src="http://eightmedia.github.com/hammer.js/jquery.hammer.js")
+	script( src="lib/hammer.js")
+	script( src="lib/jquery.hammer.js")
 	
 	script( src="lib/vendor/underscore-1.3.1.js")
 	script( src="lib/backbone-min.js")
@@ -134,7 +126,7 @@ block content
 			.expand
 				<svg style="overflow-x: hidden; overflow-y: hidden; " height="40" version="1.1" width="40" xmlns="http://www.w3.org/2000/svg"><desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); ">Created with Raphaël 2.1.0</desc><defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); "><linearGradient style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " id="8290-_0050af-_002c62" x1="0" y1="1" x2="6.123233995736766e-17" y2="0" gradientTransform="matrix(1,0,0,1,-4,-4)"><stop style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " offset="0%" stop-color="#0050af"></stop><stop style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " offset="100%" stop-color="#002c62"></stop></linearGradient></defs><path style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-linejoin: round; opacity: 0; " fill="none" stroke="#ffffff" d="M25.545,23.328L17.918,15.623L25.534,8.007L27.391,9.864L29.649,1.436L21.222,3.694L23.058,5.53L15.455,13.134L7.942,5.543L9.809,3.696L1.393,1.394L3.608,9.833L5.456,8.005L12.98,15.608L5.465,23.123L3.609,21.268L1.351,29.695L9.779,27.438L7.941,25.6L15.443,18.098L23.057,25.791L21.19,27.638L29.606,29.939L27.393,21.5Z" stroke-width="3" stroke-linejoin="round" opacity="0" transform="matrix(1,0,0,1,4,4)"></path><path style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 1; fill-opacity: 1; " fill="url(#8290-_0050af-_002c62)" stroke="none" d="M25.545,23.328L17.918,15.623L25.534,8.007L27.391,9.864L29.649,1.436L21.222,3.694L23.058,5.53L15.455,13.134L7.942,5.543L9.809,3.696L1.393,1.394L3.608,9.833L5.456,8.005L12.98,15.608L5.465,23.123L3.609,21.268L1.351,29.695L9.779,27.438L7.941,25.6L15.443,18.098L23.057,25.791L21.19,27.638L29.606,29.939L27.393,21.5Z" transform="matrix(1,0,0,1,4,4)" opacity="1" fill-opacity="1"></path><rect style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0; " x="0" y="0" width="32" height="32" r="0" rx="0" ry="0" fill="#000000" stroke="#000" opacity="0"></rect></svg>
 	
-	#mdapp
+	#mdapp.pulled_out
 		a#db_link
 			<svg style="overflow-x: hidden; overflow-y: hidden;" height="40" version="1.1" width="40" xmlns="http://www.w3.org/2000/svg"><desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); ">Created with Raphaël 2.1.0</desc><defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); "><linearGradient style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " id="55390-_0050af-_002c62" x1="0" y1="1" x2="6.123233995736766e-17" y2="0" gradientTransform="matrix(1,0,0,1,-4,-4)"><stop style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " offset="0%" stop-color="#0050af"></stop><stop style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " offset="100%" stop-color="#002c62"></stop></linearGradient></defs><path style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-linejoin: round; opacity: 0; " fill="none" stroke="#ffffff" d="M17.078,22.004L15.32,17.875L13.313,22.627L5.7940000000000005,19.337999999999997L5.968000000000001,23.243L15.405000000000001,27.616999999999997L26.314,22.251999999999995L26.165,17.262999999999995L17.078,22.004ZM29.454,6.619L18.521,3.383L15.515,6.054L12.424,3.6950000000000003L1.546,8.199L5.341,11.247L1.9080000000000004,16.549L12.786999999999999,21.305999999999997L15.316999999999998,15.307999999999996L17.573999999999998,20.615999999999996L28.967,14.673999999999996L25.862,9.964999999999996L29.454,6.619ZM15.277,14.579L6.218,10.749L15.493,6.648000000000001L25.101,9.903L15.277,14.579Z" stroke-width="3" stroke-linejoin="round" opacity="0" transform="matrix(1,0,0,1,4,4)"></path><path style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 1; fill-opacity: 1; " fill="url(#55390-_0050af-_002c62)" stroke="none" d="M17.078,22.004L15.32,17.875L13.313,22.627L5.7940000000000005,19.337999999999997L5.968000000000001,23.243L15.405000000000001,27.616999999999997L26.314,22.251999999999995L26.165,17.262999999999995L17.078,22.004ZM29.454,6.619L18.521,3.383L15.515,6.054L12.424,3.6950000000000003L1.546,8.199L5.341,11.247L1.9080000000000004,16.549L12.786999999999999,21.305999999999997L15.316999999999998,15.307999999999996L17.573999999999998,20.615999999999996L28.967,14.673999999999996L25.862,9.964999999999996L29.454,6.619ZM15.277,14.579L6.218,10.749L15.493,6.648000000000001L25.101,9.903L15.277,14.579Z" transform="matrix(1,0,0,1,4,4)" opacity="1" fill-opacity="1"></path><rect style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0; " x="0" y="0" width="32" height="32" r="0" rx="0" ry="0" fill="#000000" stroke="#000" opacity="0"></rect></svg>
 	

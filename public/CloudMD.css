@@ -76,6 +76,9 @@ body, html{
 
 #mdapp.pulled_out{
 	left:0px;
+	-webkit-transition: left 1s ease-in-out;
+  -moz-transition: left 1s ease-in-out;
+  -o-transition: left 1s ease-in-out;
 }
 
 #mdapp div, #mdapp span, #mdapp applet, #mdapp object, #mdapp iframe,
@@ -209,7 +212,7 @@ body, html{
     cursor: pointer;
     width: 20px;
     height: 20px;
-    background: url(destroy.png) no-repeat 0 0;
+    background: url(lib/destroy.png) no-repeat 0 0;
   }
     #mdapp .doc-list li:hover .document-destroy {
       display: block;
@@ -359,6 +362,6 @@ body, html{
     cursor: pointer;
     width: 20px;
     height: 20px;
-    background: url(destroy.png) no-repeat 0 0;
+    background: url(lib/destroy.png) no-repeat 0 0;
   }
 }
