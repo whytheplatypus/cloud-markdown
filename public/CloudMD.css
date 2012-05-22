@@ -16,6 +16,8 @@ body, html{
   background: #f5f5ff;
   border-left: 1px solid #e5e5ee;
   padding-left:5px;
+  -webkit-overflow-scrolling: touch;
+	overflow:scroll;
 }
 
 #preview .preview_content{
@@ -55,7 +57,8 @@ body, html{
 }
 
 #mdapp #docs{
-	overflow:hidden;
+	-webkit-overflow-scrolling: touch;
+	overflow:scroll;
 }
 
 #mdapp:after{

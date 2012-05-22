@@ -1,0 +1,18 @@
+#preview .preview_content .list_head{
+	cursor:pointer;
+}
+
+#preview .preview_content .list_head:before{
+	content: "- ";
+}
+
+#preview .preview_content .closed_list_head:after{
+	content: " +";
+}
+
+#preview .preview_content .closed_list_head:before{
+	content: "";
+}
+
+#preview .preview_content ul.closed_list, #preview .preview_content ol.closed_list{
+	display:none;

@@ -106,9 +106,9 @@ var Editor = function(){
 		editor.refresh();
 		editor.setCursor(cursorPos);
 		
-		documentListScroll.refresh();
-		editorScroll.refresh();
-		previewScroll.refresh();
+		//documentListScroll.refresh();
+		//editorScroll.refresh();
+		//previewScroll.refresh();
 	}
 	
 	this.getValue = function(){
@@ -125,7 +125,9 @@ var Editor = function(){
 		} else {
 			$("#preview .preview_content").html(marked(editor.getValue()));
 		}
-		previewScroll.refresh();
+		applyTheme();
+		
+		//previewScroll.refresh();
 	}
 	
 	var hlLine = editor.setLineClass(0, "activeline");
@@ -617,7 +619,7 @@ var DocumentListView = Backbone.View.extend({
 		if(doc.isNew() && !doc.get("db_path")){
 			view.show();
 		}
-		documentListScroll.refresh();
+		//documentListScroll.refresh();
 	},
 
 	// Add all items in the **Docs** collection at once.
@@ -740,9 +742,9 @@ var AppView = Backbone.View.extend({
 	},
 });
 
-var documentListScroll = new iScroll('docs', {hScrollbar: false, vScrollbar: false });
-var editorScroll = new iScroll('code', {hScrollbar: false, vScrollbar: false });
-var previewScroll = new iScroll('preview', {hScrollbar: false, vScrollbar: false });
+//var documentListScroll = new iScroll('docs', {hScrollbar: false, vScrollbar: false });
+//var editorScroll = new iScroll('code', {hScrollbar: false, vScrollbar: false });
+//var previewScroll = new iScroll('preview', {hScrollbar: false, vScrollbar: false });
 
 var App = new AppView;
 

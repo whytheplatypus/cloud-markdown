@@ -45,13 +45,16 @@ block style
 	<!-- you only need this if you want to include a theme...duh -->
 	link(id="theme", rel="stylesheet", href="lib/smoke/themes/100s.css")
 	link( rel="stylesheet", href="lib/add2home.css")
+	
+	link(rel="stylesheet", href="Themes/ToDo/ToDo.css");
+	
 	style.
 		html, body{
 			height:100%;
 			width:100%;
 		}
 		
-		.CodeMirror-scroll {height: auto; overflow: visible;}
+		.CodeMirror-scroll {-webkit-overflow-scrolling: touch;}
 		span.CodeMirror-matchhighlight { background: #e9e9e9 }
 		.CodeMirror-focused span.CodeMirror-matchhighlight { background: #e7e4ff; !important }
 		
@@ -88,7 +91,7 @@ block scripts
 	script(type="application/javascript", src="lib/add2home.js")
 				
 	script(src="lib/smoke/smoke.min.js")
-	script(src="lib/iscroll.js");
+	//script(src="lib/iscroll.js");
 	
 	script( src="lib/codemirror.js")
 	script( src="lib/util/formatting.js")
@@ -116,6 +119,7 @@ block scripts
 	script( src="lib/backbone-min.js")
 	script( src="lib/backbone-localstorage.js")
 	
+	script( src="Themes/ToDo/ToDo.js");
 	script( src="CloudMD.js")
 	
 block content

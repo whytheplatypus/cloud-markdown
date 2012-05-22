@@ -310,7 +310,8 @@ var inline = {
   em: /^\b_((?:__|[^\0])+?)_\b|^\*((?:\*\*|[^\0])+?)\*(?!\*)/,
   code: /^(`+)([^\0]*?[^`])\1(?!`)/,
   br: /^ {2,}\n(?!\s*$)/,
-  text: /^[^\0]+?(?=[\\<!\[_*`]| {2,}\n|$)/
+  text: /^[^\0]+?(?=[\\<!\[_*`]| {2,}\n|$)/,
+  strike: /^~~([^\0]+?)~~(?!_)|^\*\*([^\0]+?)\*\*(?!\*)/,
 };
 
 inline._linkInside = /(?:\[[^\]]*\]|[^\]]|\](?=[^\[]*\]))*/;
@@ -435,6 +436,15 @@ inline.lexer = function(src) {
       out += '<strong>'
         + inline.lexer(cap[2] || cap[1])
         + '</strong>';
+      continue;
+    }
+    
+    //strike
+    if (cap = inline.strike.exec(src)){
+    	src = src.substring(cap[0].length);
+      out += '<span style="text-decoration:line-through">'
+        + inline.lexer(cap[2] || cap[1])
+        + '</span>';
       continue;
     }
 
