@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2012-05-13:27:
+# 2012-06-05:14:05
 
 /
 CloudMD.js
@@ -71,6 +71,9 @@ lib/vendor/zepto-0.6.js
 
 lib/hammer.js
 lib/jquery.hammer.js
+
+lib/keys/keys.css
+lib/keys/keys.js
 
 NETWORK:
 https://getfirebug.com/firebug-lite.js

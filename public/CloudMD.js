@@ -1,7 +1,6 @@
 
 $(function(){
 
-
 $.ajaxSetup({
   timeout: 5000
 });
@@ -69,6 +68,7 @@ var Editor = function(){
 	//Set up our CodeMirror editor
 	var delay;
 	var foldFunc = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder);
+    
 	var editor = CodeMirror(document.getElementById("code"), {
 		mode: "markdown",
 		lineNumbers: true,
@@ -89,8 +89,20 @@ var Editor = function(){
 		
 		lineWrapping: true,
 		onGutterClick: foldFunc,
-		smartIndent: false,
+		smartIndent: false
 	});
+    
+    var markdownKeys = new Keys(['~','`','_','#','*','[',']','{','}','(',')',':','/','@'], {
+        codemirrors:[editor],
+        debug:false,
+        onShow:function(){
+            window.scrollBy(0,-60);
+        },
+        onHide:function(){
+            window.scrollBy(0,60);
+        }
+    });
+    markdownKeys.build();
 	
 	//add the expand button:
 	var expandButton = document.createElement('div');
@@ -820,5 +832,7 @@ window.addEventListener("online", function(e) {
 }, false);
 
 setTimeout(function(){$('#mdapp').toggleClass('pulled_out');}, 500);
+    
+    
 
 });
