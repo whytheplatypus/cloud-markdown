@@ -94,12 +94,12 @@ var Editor = function(){
     
     var markdownKeys = new Keys(['~','`','_','#','*','[',']','{','}','(',')',':','/','@'], {
         codemirrors:[editor],
-        debug:false,
+        debug:true,
         onShow:function(){
-            window.scrollBy(0,-60);
+            $('#container').css('top', '60px');
         },
         onHide:function(){
-            window.scrollBy(0,60);
+            $('#container').css('top', '0px');
         }
     });
     markdownKeys.build();
