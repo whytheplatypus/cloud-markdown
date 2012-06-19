@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2012-06-06:14:44
+# 2012-06-19:10:39
 
 /
 CloudMD.js
@@ -74,6 +74,8 @@ lib/jquery.hammer.js
 
 lib/keys/keys.css
 lib/keys/keys.js
+
+lib/vendor/keymaster.js
 
 NETWORK:
 https://getfirebug.com/firebug-lite.js
