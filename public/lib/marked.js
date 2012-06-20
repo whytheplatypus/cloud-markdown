@@ -553,7 +553,7 @@ var tok = function() {
       }
       return '<pre><code'
         + (token.lang
-        ? ' class="lang-'
+        ? ' data-language="'
         + token.lang
         + '"'
         : '')
