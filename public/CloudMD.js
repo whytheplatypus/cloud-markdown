@@ -92,10 +92,10 @@ var Editor = function(){
 	});
     
     var markdownKeys = new Keys([
-        {value:'~~', display:'<span style="text-decoration:line-through">s</span>', behavior:
+        {value:'~', display:'<span style="text-decoration:line-through">s</span>', behavior:
             function(input){
                 var last_cursor = editor.getCursor(false);
-                input.replaceRange('~~', last_cursor);
+                input.replaceRange('~', last_cursor);
                 //last_cursor.ch -= 2;
                 editor.setCursor(last_cursor);
             }
@@ -112,6 +112,14 @@ var Editor = function(){
             function(input){
                 var last_cursor = editor.getCursor(false);
                 input.replaceRange('__', last_cursor);
+                //last_cursor.ch -= 2;
+                editor.setCursor(last_cursor);
+            }
+        },
+        {value:'$', display: '$', behavior:
+            function(input){
+                var last_cursor = editor.getCursor(false);
+                input.replaceRange('$', last_cursor);
                 //last_cursor.ch -= 2;
                 editor.setCursor(last_cursor);
             }
@@ -184,14 +192,14 @@ var Editor = function(){
         console.log('strikethrough');
         var cursor_temp = editor.getCursor();
         if(editor.getSelection()){
-            editor.replaceSelection('~~' + editor.getSelection() + '~~');
+            editor.replaceSelection('~' + editor.getSelection() + '~');
         } else {
 
-            editor.replaceRange('~~~~', cursor_temp);
+            editor.replaceRange('~~', cursor_temp);
 
 
         }
-        cursor_temp.ch += 2;
+        cursor_temp.ch += 1;
         editor.setCursor(cursor_temp);
     });
 
@@ -209,10 +217,16 @@ var Editor = function(){
         cursor_temp.ch += 4;
         editor.setCursor(cursor_temp);
     });
+    
+    var self = this;
+    key('command+p', function(event){
+        event.preventDefault();
+        self.print();
+    });
 	
 	//add the expand button:
 	var expandButton = document.createElement('a');
-	expandButton.className = "expand";
+	expandButton.className = "expand mouse_show";
 	expandButton.innerHTML = expand;
 	document.getElementById('code').appendChild(expandButton);
 
@@ -243,6 +257,10 @@ var Editor = function(){
 		} else {
 			$("#preview .preview_content").html(marked(editor.getValue()));
 		}
+
+        Rainbow.color();
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+
 		applyTheme();
 		
 		//previewScroll.refresh();
@@ -292,6 +310,15 @@ var Editor = function(){
 			this.innerHTML = collapse;
 		}
 	});
+
+    this.print = function(){
+        if(!$('#code').hasClass("closed"))
+            $('#code').addClass("closed");
+        if(!$('#preview').hasClass("full_screen"))
+            $('#preview').addClass("full_screen");
+
+        window.print();
+    }
 	
 	this.getScrollerElement = function(){
 		return editor.getScrollerElement();
@@ -935,6 +962,15 @@ window.addEventListener("offline", function(e) {
 window.addEventListener("online", function(e) {
   smoke.alert("Round of applause, Syncing's back!");
   App.Root.DBsync();
+}, false);
+var fadeTimeout;
+window.addEventListener('mousemove', function(){
+    if(!$('.mouse_show').hasClass('visible'))
+        $('.mouse_show').toggleClass('visible');
+    clearTimeout(fadeTimeout);
+    fadeTimeout = setTimeout(function(){
+        $('.mouse_show').removeClass('visible');
+    }, 1000);
 }, false);
 
 setTimeout(function(){$('#mdapp').toggleClass('pulled_out');}, 500);

@@ -2,7 +2,7 @@
   "subdomain": "MarkdownCloud",
   "name": "MarkdownCloud",
   "user": "whytheplatypus",
-  "version": "0.0.1-17",
+  "version": "0.0.1-20",
   "author": "whytheplatypus <whytheplatypus@gmail.com>",
   "description": "a Markdown editing and preview web app with offline and dropbox support",
   "main": "",

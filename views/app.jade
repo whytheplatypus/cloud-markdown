@@ -50,6 +50,7 @@ block style
 	link(rel='stylesheet', href='lib/keys/keys.css');
 
 	link(rel="stylesheet", href="css/font-awesome.css");
+	link(rel="stylesheet", href="lib/vendor/rainbow/themes/solarized-light.css");
 	
 	style.
 		html, body{
@@ -136,7 +137,7 @@ block content
 		#code
 		#preview
 			.preview_content
-			a.expand
+			a.expand.mouse_show
 				i.icon-resize-full
 
 	#mdapp.pulled_out
@@ -175,18 +176,29 @@ block content
 	script(type="text/template", id="document-editor-template")
 		.code
 		.preview
-  
+		
 	script(type="text/template", id="document-list-template")
 		.create-doc
 				input(class="new-doc", placeholder="untitled", type="text")
 				span(class="ui-tooltip-top", style="display:none;") Press Enter to save this task
 		ul(class = "doc-list")
-			
-		
+	
 	script(type="text/template", id="folder-template").
 		<div class="view">
 			<label class="document-text"><%= path %></label>
 		</div>
+
+	script(src="lib/vendor/rainbow/rainbow.js")
+	script(src="lib/vendor/rainbow/language/generic.js")
+	script(src="lib/vendor/rainbow/language/javascript.js")
+	script(src="lib/vendor/rainbow/language/html.js")
+	script(src="lib/vendor/rainbow/language/python.js")
+	script(src="lib/vendor/rainbow/language/css.js")
+	script(type="text/x-mathjax-config").
+		MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+	script( type="text/javascript", src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML")
+
+
 //		
 	script(type="text/template", id="folder-list-template")
 		.create-file

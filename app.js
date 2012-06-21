@@ -209,6 +209,6 @@ app.post('/sync/dir', function(req, res){
 	}
 });
 
-app.listen(8080);
+app.listen(80);
 
-console.log('Dropbox browser running on port 8080');
+console.log('Dropbox browser running on port 80');

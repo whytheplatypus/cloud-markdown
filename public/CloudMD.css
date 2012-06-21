@@ -43,6 +43,16 @@ body{
 	top: 5px;
 }
 
+.mouse_show{
+    opacity:0;
+    -webkit-transition: opacity .5s ease-in-out;
+    -moz-transition: opacity .5s ease-in-out;
+    -o-transition: opacity .5s ease-in-out;
+}
+.mouse_show.visible{
+    opacity:1;
+}
+
 #mdapp{
 	position:absolute;
 	top:0px;

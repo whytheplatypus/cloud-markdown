@@ -299,7 +299,7 @@ block.token = function(src, tokens, top) {
  */
 
 var inline = {
-  escape: /^\\([\\`*{}\[\]()#+\-.!_>])/,
+  escape: /^\\([\\`*{}\[\]()#+\-.!_~>])/,
   autolink: /^<([^ >]+(@|:\/)[^ >]+)>/,
   url: noop,
   tag: /^<!--[^\0]*?-->|^<\/?\w+(?:"[^"]*"|'[^']*'|[^'">])*?>/,
@@ -308,10 +308,10 @@ var inline = {
   nolink: /^!?\[((?:\[[^\]]*\]|[^\[\]])*)\]/,
   strong: /^__([^\0]+?)__(?!_)|^\*\*([^\0]+?)\*\*(?!\*)/,
   em: /^\b_((?:__|[^\0])+?)_\b|^\*((?:\*\*|[^\0])+?)\*(?!\*)/,
+  strike: /^~([^\0]+?)~(?!~)/,
   code: /^(`+)([^\0]*?[^`])\1(?!`)/,
   br: /^ {2,}\n(?!\s*$)/,
-  text: /^[^\0]+?(?=[\\<!\[_*`]| {2,}\n|$)/,
-  strike: /^~~([^\0]+?)~~(?!_)|^\*\*([^\0]+?)\*\*(?!\*)/,
+  text: /^[^\0]+?(?=[\\<!\[_*`~]| {2,}\n|$)/,
 };
 
 inline._linkInside = /(?:\[[^\]]*\]|[^\]]|\](?=[^\[]*\]))*/;
@@ -330,6 +330,7 @@ inline.normal = {
   url: inline.url,
   strong: inline.strong,
   em: inline.em,
+	strike: inline.strike,
   text: inline.text
 };
 
@@ -340,7 +341,7 @@ inline.pedantic = {
 
 inline.gfm = {
   url: /^(https?:\/\/[^\s]+[^.,:;"')\]\s])/,
-  text: /^[^\0]+?(?=[\\<!\[_*`]|https?:\/\/| {2,}\n|$)/
+  text: /^[^\0]+?(?=[\\<!\[_*`~]|https?:\/\/| {2,}\n|$)/
 };
 
 /**
@@ -440,9 +441,10 @@ inline.lexer = function(src) {
     }
     
     //strike
+    console.log(inline.strike.exec(src));
     if (cap = inline.strike.exec(src)){
     	src = src.substring(cap[0].length);
-      out += '<span style="text-decoration:line-through">'
+      out += '<span style="text-decoration:line-through;">'
         + inline.lexer(cap[2] || cap[1])
         + '</span>';
       continue;
